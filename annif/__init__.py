@@ -39,7 +39,7 @@ def create_app(config_name: str | None = None) -> Flask:
     from flask_cors import CORS
 
     specdir = os.path.join(os.path.dirname(__file__), "openapi")
-    cxapp = connexion.App(__name__, specification_dir=specdir)
+    cxapp = connexion.FlaskApp(__name__, specification_dir=specdir)
     config_name = _get_config_name(config_name)
     logger.debug(f"creating connexion app with configuration {config_name}")
     cxapp.app.config.from_object(config_name)
@@ -59,8 +59,7 @@ def create_app(config_name: str | None = None) -> Flask:
 
     cxapp.app.register_blueprint(bp)
 
-    # return the Flask app
-    return cxapp.app
+    return cxapp
 
 
 def _get_config_name(config_name: str | None) -> str:
