@@ -38,8 +38,6 @@ def create_app(config_name: str | None = None) -> Flask:
     import connexion
     from flask_cors import CORS
 
-    from annif.openapi.validation import CustomRequestBodyValidator
-
     specdir = os.path.join(os.path.dirname(__file__), "openapi")
     cxapp = connexion.App(__name__, specification_dir=specdir)
     config_name = _get_config_name(config_name)
@@ -47,10 +45,7 @@ def create_app(config_name: str | None = None) -> Flask:
     cxapp.app.config.from_object(config_name)
     cxapp.app.config.from_envvar("ANNIF_SETTINGS", silent=True)
 
-    validator_map = {
-        "body": CustomRequestBodyValidator,
-    }
-    cxapp.add_api("annif.yaml", validator_map=validator_map)
+    cxapp.add_api("annif.yaml")
 
     # add CORS support
     CORS(cxapp.app)
