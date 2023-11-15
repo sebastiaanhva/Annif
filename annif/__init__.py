@@ -51,6 +51,8 @@ def create_app(config_name: str | None = None) -> Flask:
     CORS(cxapp.app)
 
     if cxapp.app.config["INITIALIZE_PROJECTS"]:
+        import annif.registry
+
         annif.registry.initialize_projects(cxapp.app)
         logger.info("finished initializing projects")
 
